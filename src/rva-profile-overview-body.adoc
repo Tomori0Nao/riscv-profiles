@@ -15,16 +15,23 @@ substantial fraction of software to be delivered to end-customers in
 binary form, compatibility across multiple implementations from
 different RISC-V vendors is required.
 
+RISC-V 是为高度模块化及扩展性而设计的指令集，其包括一个庞大且正在增长的标准拓展，其中的每一个标准拓展均是一个指令集特性集合。RISC-V和其他业界ISA一样不断增加新的ISA特性，但RISC-V拥有众多的contributors和implementers,并且允许用户增加个性化的拓展。在一些深度嵌入式的市场，追求效率而需要高度自定义的处理器配置、并且同一个机构在这个特定的处理器配置下完成所有软件的编译、移植或内部开发。然而，对于其他的希望大部分软件通过二进制的形式分发给终端用户的市场，对于不同RISC-V产品的不同实现的兼容性是必要的。
+
 The RVIA ISA extension ratification process ensures that all processor
 vendors have agreed to the specification of a standard extension if
 present.  However, by themselves, the ISA extension specifications do
 not guarantee that a certain set of standard extensions will be
 present in all implementations.
 
+RVIA ISA extension ratification process确保所有处理器产品认同standard extensions的规格文档。但对于RISC-V产品而言，
+ISA extension specifications 并不确保所有实现中均含有特定standard extensions。
+
 *The primary goal of the RVA profiles is to align processor vendors
 targeting binary software markets, so software can rely on the
 existence of a certain set of ISA features in a particular generation
 of RISC-V implementations.*
+
+RVA profiles 的最终目标是面向二进制软件市场的处理器厂商保持一致，使得在RISC-V实现的某个特定版本中，所有的软件能够依赖特定的指令集特性集
 
 Alignment is not only for compatibility, but also to ensure RISC-V is
 competitive in these markets.  The binary app markets are also
@@ -45,6 +52,8 @@ for certain limited cases, and binary app markets will not support a
 wide range of optional features, particularly for the nascent RISC-V
 binary app ecosystems.
 
+这不仅仅是为了兼容性，同时也是为了确保RISC-V在这些市场上具有竞争力。二进制应用市场通常也是性能要求最高的市场（例如移动、客户端、服务器）。RVIA不能强制要求RISC-V二进制软件生态系统应该使用的ISA特性，因为每个生态系统通常会选择他们在目标市场中部署设备中观察到的最低要求。但RVIA可以通过RVA profiles使硬件厂商在每一代中支持一组共同的特性。如果没有通过RVA profiles的主动对齐，RISC-V将没有竞争力，因为即使某个特定的厂商实现了某个特性，如果其他厂商没有实现，那么二进制分发通常不会使用该特性，所有的实现都会受到影响。虽然某些特性可能是可发现的，并且在特性的存在/不存在的情况下提供备用代码，但支持这些选项的额外成本只有在某些有限的情况下才是合理的，而二进制应用市场不会支持广泛的可选特性，特别是对于新兴的RISC-V二进制应用生态系统。
+
 To maintain alignment and increase RISC-V competitiveness over time,
 the mandatory set of extensions must increase over time in successive
 generations of RVA profile.  (RVA profiles may eventually have to
@@ -60,9 +69,13 @@ considerable investment, and no single binary app ecosystem can
 justify the development costs of these processors, especially for
 RISC-V in its early stage of adoption.
 
+为了保持对齐并提高RISC-V的竞争力，必须在RVA profile的连续几代中逐渐增加强制的拓展集。 （RVA profiles最终可能需要废弃先前强制的指令，但在不久的将来这是不太可能的。）请注意，RISC-V ISA将持续演进，无论某个软件生态系统是否在很多年甚至几十年内将某一代profile作为他们生态系统的基线。有许多现有的二进制软件生态系统，它们将迁移到RISC-V并以不同的速度发展，而且在RISC-V的希望长期生命周期内，无疑会创建更多的新生态系统。高性能应用处理器需要大量投资，没有一个单一的二进制应用生态系统能够为这些处理器的开发成本提供合理的理由，特别是对于RISC-V在其早期采用阶段。
+
 While the heart of the profile is the set of mandatory extensions,
 there are several kinds of optional extension that serve important
 roles in the profile.
+
+虽然profile的核心是强制拓展集，但是有几种可选拓展在profile中发挥着重要的作用。
 
 The first kind are _localized_ _options_, whose presence or use
 necessarily differs along geo-political and/or jurisdictional
@@ -71,6 +84,9 @@ be optional.  At least for crypto, discovery has been found to be
 perfectly acceptable to handle this optionality on other
 architectures, as the use of the extensions is well contained in
 certain libraries.
+
+首先是_localized_ _options_，其存在或使用在地缘政治和/或司法边界上必然不同，crypto 就是一个明显的例子。
+这些选项将始终是可选的。至少对于crypto，为了处理其他架构上的可选性，缺少相应extentions被发现是完全可以接收的，因为这些extensions的功能已被特定库包含。
 
 The second kind of optional extension is a _development_ _option_,
 which represents a new ISA extension in an early part of its lifecycle
@@ -84,6 +100,11 @@ Denoting an extension as a _development_ _option_ signals to the
 community that development should be prioritized for such extensions
 as they will become mandatory.
 
+第二种可选 extention 是 _development_ _option_, 一个尚处于雏形期但计划被后续的RVA profile中的强制要求的ISA extension。
+处理器厂商和软件工具链提供商将有不同的开发时间表，为新 extension 的生命周期提供一个可选阶段，提供一定的灵活性的同时保持整体的对齐，
+特别是在 extension 的软硬件开发困难的情况下，将一个 extension 标记为 _development_ _option_ 以提示社区，表明应该优先考虑这些拓展的开发，
+因为它们将成为强制的。
+
 The third kind of optional extension are _expansion_ _options_, which
 are those that may have a large implementation cost but are not always
 needed in a particular platform, and which can be readily handled by
@@ -95,6 +116,12 @@ unprivileged extensions that may fall into this category are possible
 future matrix extensions.  These have large implementation costs, and
 use of matrix instructions can be readily supported with discovery and
 alternate math libraries.
+
+第三种可选 extension 是 _expansion_ _options_, 这些 extension 可能具有较大的实现成本，
+但在特定平台上并不总是需要的。这些 extesion 也打算在未来的profile版本中作为扩展选项保持可用。
+几个 S-mode 的 extension 属于这一类，例如Sv57，相对于Sv48有显著的PPA影响，并且在较小的平台上不需要。
+未来的 matrix extension 可能属于这一类的非特权 extension。那些有着较大实现成本并且使用 matrix 指令的 extension 
+可以使用平替数学库获得支持。
 
 The fourth kind of optional extensions are _transitory_ _options_,
 where it is not clear if the extension will change to a mandatory,
@@ -110,6 +137,12 @@ term.  Denoting an option as transitory signals to the community that
 this extension may be removed in a future profile, though the time
 scale may span many years.
 
+第四种可选 extension 是 _transitory_ _options_, 那些不清楚是否会变为强制、localized、或者expansion option，
+或者随着时间的推移可能被删除的 extension。Cryptography 提供了一些例子，早期的加密方式已经被破解并被弃用
+。RVIA使用这种机制来启用标量加密，直到矢量加密准备就绪。软件安全功能也可能属于这一类，其他架构中已经出现了被弃用的安全功能。
+另一个例子是，最近的大量新的 AI/ML 数值数据类型可能最终会减少，只有少数幸存者会在长期内被使用。
+将一个选项标记为transitory提示社区，这个 extension 可能会在未来的profile中被删除，尽管时间跨度可能会延续多年。
+
 Except for the localized options, it could be argued that other three
 kinds of option could be left out of profiles.  Binary distributions
 of applications willing to invest in discovery can use an optional
@@ -120,3 +153,9 @@ extension.  However, there is value in providing guidance to align
 hardware vendors and software developers around what extensions are
 worth implementing and worth discovering, by designating only a few
 important features as profile options and limiting their granularity.
+
+除了localized options，可以认为其他三种选项可以被排除在profile之外。
+愿意投资于缺少的 extension 的应用程序的Binary distributions(的人)可以使用可选的extension，
+而自己编译应用程序的客户可以利用特定实现上的特性，即使该系统主要运行忽略新 extension 的 Binary distributions。
+然而，通过指定只有少数重要特性作为profile选项并限制它们的粒度，
+提供指导以使硬件厂商和软件开发人员围绕哪些值得实现和值得发现的 extention 进行对齐是有意义的。
