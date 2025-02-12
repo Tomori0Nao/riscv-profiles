@@ -57,11 +57,15 @@ Do not use for implementations.  Assume everything can change.
 *This document is intended to address only RVA profiles and not other
 types of profile.*
 
+本文件旨在仅讨论RVA配置文件，而不是其他类型的配置文件。
+
 This document provides a general introduction and rationale for RISC-V
 RVA profiles' structure and terminology.  It is based on the original
 introduction to the first ratified RVA profiles, and further
 discussion in the profiles' TG specifically regarding the RVA series
 of profiles.
+
+本文档提供了RISC-V RVA profile 结构和术语的介绍和基本原理。它基于第一个经过批准的RVA配置文件，并进一步讨论了RVA系列 profiles 的 TG
 
 :sectnums:
 
