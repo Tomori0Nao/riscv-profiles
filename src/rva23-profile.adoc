@@ -57,8 +57,12 @@ RVA23 to allow more hardware implementation flexibility by supporting
 only a minimal set of features and a large number of fine-grain
 extensions.
 
+RVA23 profiles 目的是统一 RISC-V 64 位应用处理器的实现，以便二进制软件生态系统可以依赖于大量的有保证的 extensioins 和少量可选的粗粒度选项，而不是通过支持一组最小功能和大量细粒度扩展来提供更多硬件实现灵活性。
+
 Only user-mode (RVA23U64) and supervisor-mode (RVA23S64) profiles are
 specified in this family.
+
+本文档只指定了 user-mode（RVA23U64）和 s-mode（RVA23S64）profile.
 
 === RVA23U64 Profile
 
@@ -67,72 +71,168 @@ execution environments in 64-bit applications processors.  This is the
 most important profile within the application processor family in
 terms of the amount of software that targets this profile.
 
+RVA23U64 profile 指定了 64 位应用处理器中用户模式执行环境可用的 ISA 功能，就针对该 profile 的软件数量而言，这是应用处理器家族中最重要的 profile。
+
 ==== RVA23U64 Mandatory Base
 
 RV64I is the mandatory base ISA for RVA23U64 and is little-endian.  As
 per the unprivileged architecture specification, the `ECALL`
 instruction causes a requested trap to the execution environment.
 
+RV64I 是 RVA23U64 的强制基本 ISA，也是小端的。根据非特权架构规范，`ECALL` 指令引发 trap。
+
 ==== RVA23U64 Mandatory Extensions
 
 The following mandatory extensions were present in RVA22U64.
 
+RVA22U64包含以下强制 extensions
+
 - *M* Integer multiplication and division.
+
+- *M* 整数乘法和除法
+
 - *A* Atomic instructions.
+
+- *A* 原子指令
+
 - *F* Single-precision floating-point instructions.
+
+- *F* 单精度浮点指令
+
 - *D* Double-precision floating-point instructions.
+
+- *D* 双精度浮点指令
+
 - *C* Compressed instructions.
+
+- *C* 压缩指令
+
 - *B* Bit-manipulation instructions.
+
+- *B* 位操作指令
+
 - *Zicsr*  CSR instructions.  These are implied by presence of F.
+
+- *Zicsr* CSR 指令。这些指令由 F 的存在隐含。
+
 - *Zicntr* Base counters and timers.
+
+- *Zicntr* 基本计数器和定时器
+
 - *Zihpm* Hardware performance counters.
+
+- *Zihpm* 硬件性能计数器
+
 - *Ziccif* Main memory regions with both the cacheability and
   coherence PMAs must support instruction fetch, and any instruction
   fetches of naturally aligned power-of-2 sizes up to min(ILEN,XLEN)
   (i.e., 32 bits for RVA23) are atomic.
+
+- *Ziccrsf* Main memory regions 带有缓存一致性 PMAs 必须支持指令获取，并且任何自然对齐的 2 的幂大小的指令获取最多到 min(ILEN,XLEN)（例如 RVA23 为 32 位）是原子的。
+
+
 - *Ziccrse* Main memory regions with both the cacheability and coherence PMAs must support RsrvEventual.
+
+- *Ziccrse* 带有缓存一致性 PMAs 的 Main memory regions 必须支持 RsrvEventual。
+
 - *Ziccamoa* Main memory regions with both the cacheability and coherence PMAs must support all atomics in A.
+
+- *Ziccamoa* 带有缓存一致性 PMAs 的 Main memory regions 必须支持 A 中的所有原子操作。
+
 - *Zicclsm* Misaligned loads and stores to main memory regions with both the
   cacheability and coherence PMAs must be supported.
+
+- *Zicclsm* 对带有缓存一致性 PMAs 的 Main memory regions 的非对齐加载和存储必须得到支持。
+
 - *Za64rs* Reservation sets are contiguous, naturally aligned, and a
    maximum of 64 bytes.
+
+- *Za64rs* Reservation sets 是连续的、自然对齐的，最大为 64 字节。
+
 - *Zihintpause* Pause hint.
+
+- *Zihintpause* 暂停提示
+
 - *Zic64b* Cache blocks must be 64 bytes in size, naturally aligned in the
 address space.
+
+- *Zic64b* 缓存块的大小必须为 64 字节，在地址空间中自然对齐。
+
 - *Zicbom* Cache-block management instructions.
+
+- *Zicbom* 缓存块管理指令
+
 - *Zicbop* Cache-block prefetch instructions.
+
+- *Zicbop* 缓存块预取指令
+
 - *Zicboz* Cache-Block Zero Instructions.
+
+- *Zicboz* 缓存块零指令
+
 - *Zfhmin* Half-precision floating-point.
+
+- *Zfhmin* 半精度浮点
+
 - *Zkt* Data-independent execution latency.
+
+- *Zkt* 数据独立执行延迟
+
 
 The following mandatory extensions are new in RVA23U64:
 
+以下强制 extensions 是 RVA23U64 中的新内容
+
 - *V* Vector extension.
+
+- *V* 向量扩展
 
 NOTE: V was optional in RVA22U64.
 
+NOTE: V 在 RVA22U64 中是可选的。
+
 - *Zvfhmin* Vector minimal half-precision floating-point.
+
+- *Zvfhmin* 向量最小半精度浮点
 
 - *Zvbb* Vector basic bit-manipulation instructions.
 
+-*Zvbb* 向量基本位操作指令
+
 - *Zvkt* Vector data-independent execution latency.
+
+- *Zvkt* 向量数据独立执行延迟
 
 - *Zihintntl* Non-temporal locality hints.
 
+- *Zihintntl* 非临时局部性提示
+
 - *Zicond* Integer conditional operations.
+
+- *Zicond* 整数条件操作
 
 - *Zimop* may-be-operations.
 
 - *Zcmop* Compressed may-be-operations.
 
+- *Zcmop* 压缩 may-be-operations
+
 - *Zcb* Additional compressed instructions.
+
+- *Zcb* 额外的压缩指令
 
 - *Zfa* Additional floating-Point instructions.
 
+- *Zfa* 额外的浮点指令
+
 - *Zawrs* Wait-on-reservation-set instructions.
+
+- *Zawrs* 等待保留集指令
 
 - *Supm* Pointer masking, with the execution environment providing a means to
    select PMLEN=0 and PMLEN=7 at minimum.
+
+- *Supm* 指针掩码化，执行环境提供一种选择至少 PMLEN=0 和 PMLEN=7 的方法
 
 ==== RVA23U64 Optional Extensions
 
@@ -140,8 +240,15 @@ NOTE: V was optional in RVA22U64.
 
 The following localized options are new in RVA23U64:
 
+RVA23U64中新的 localized 选项如下
+
 - *Zvkng* Vector crypto NIST algorithms with GCM.
+
+- *Zvkng* GCM模式的向量加密 NIST 算法
+
 - *Zvksg* Vector crypto ShangMi algorithms with GCM.
+
+- *Zvksg* GCM模式的向量加密 ShangMi 算法
 
 NOTE: The scalar crypto extensions Zkn and Zks that were options in
 RVA22 are not options in RVA23.  The goal is for both hardware and
@@ -149,62 +256,111 @@ software vendors to move to use vector crypto, as vectors are now
 mandatory and vector crypto is substantially faster than scalar
 crypto.
 
+NOTE: scalar crypto extensions Zkn 和 Zks 在RVA22中是可选的但在RVA23中不再是可选的。目的是硬件和软件供应商都使用向量加密，因为向量现在是强制的，而且向量加密比标量加密快得多。 
+
 NOTE: We have included only the Zvkng/Zvksg options with GCM to
 standardize on a higher performance crypto alternative. Zvbc is listed
 as a development option for use in other algorithms, and will become
 mandatory.  Scalar Zbc is now listed as an expansion option, i.e., it
 will probably not become mandatory.
 
+NOTE：我们只包含了带有 GCM 的 Zvkng/Zvksg 选项，以便标准化更高性能的加密替代方案。Zvbc 列为用于其他算法的开发选项，并将成为强制选项。标量 Zbc 现在列为扩展选项，即它可能不会成为强制选项。
+
 ===== Development Options
 
 The following are new development options intended to become mandatory in a future RVA profile.
 
+以下是新的开发选项，在未来的 RVA profile 中成为强制选项
+
 - *Zabha* Byte and halfword atomic memory operations.
+
+- *Zabha* 字节和半字原子内存操作
+
 - *Zacas* Compare-and-Swap instructions.
+
+- *Zacas* 比较和交换指令
+
 - *Ziccamoc* Main memory regions with both the cacheability and coherence PMAs
   must provide `AMOCASQ` level PMA support.
+
+- *Ziccamoc* 带有缓存一致性 PMAs 的 Main memory regions 必须提供 `AMOCASQ` 级别的 PMA 支持
 
 NOTE: Ziccamoc is a new profile-defined extension that ensures
 Compare and Swap instructions are properly supported in main memory
 regions.  The extension will be added to the PMA section of the
 privileged architecture manual.
 
+NOTE: Ziccamoc 是一个新的 profile-defined extension，它确保 Compare and Swap 指令在main memory
+regions中得到正确支持。该扩展将被添加到特权架构手册的 PMA 部分。
+
 - *Zvbc* Vector carryless multiplication.
+
+- *Zvbc* 向量无进位乘法
+
 - *Zama16b* Misaligned loads, stores, and AMOs to main memory regions that do not cross a naturally aligned 16-byte boundary are atomic.
+
+- *Zama16b* 对不跨越自然对齐的 16 字节边界的 main memory regions 的非对齐加载、存储和 AMO 是原子的。
 
 NOTE: Zama16b is a new profile-defined extension that represents
 the presence of the new Misaligned Atomicity Granule feature added in
 Sm1p13.  The extension will be added to the PMA section of the
 privileged architecture manual.
 
+NOTE: Zama16b 是一个新的 profile-defined extension，表示在 Sm1p13 中添加的新的 Misaligned Atomicity Granule 功能。该扩展将被添加到特权架构手册的 PMA 部分。 
 ===== Expansion Options
 
 The following expansion options were also present in RVA22U64:
 
+RVA22U64 中也包含以下 expansion options
+
 - *Zfh* Scalar half-precision floating-point.
+
+- *Zfh* 标量半精度浮点
 
 The following are new expansion options in RVA23U64:
 
+RVA23U64 中的新的 expansion options 如下
+
 - *Zbc* Scalar carryless multiply.
+
+- *Zbc* 标量无进位乘法
+
 - *Zicfilp* Landing Pads.
+
 - *Zicfiss* Shadow Stack.
+
 - *Zvfh* Vector half-precision floating-point.
+
+- *Zvfh* 向量半精度浮点
+
 - *Zfbfmin* Scalar BF16 converts.
+
+- *Zfbfmin* 标量 BF16 转换
+
 - *Zvfbfmin* Vector BF16 converts.
+
+- *Zvfbfmin* 向量 BF16 转换
+
 - *Zvfbfwma* Vector BF16 widening mul-add.
+
+- *Zvfbfwma* 向量 BF16 widening mul-add
 
 ===== Transitory Options
 
 There are no transitory options in RVA23U64.
 
+RVA23U64中没有 transitory options
 NOTE: Scalar crypto is no longer an option in RVA23U64, though the Zbc
 extension has now been exposed as an expansion option.
+
+NOTE：标量加密在 RVA23U64 中不再是一个选项，尽管 Zbc 扩展现在已经暴露为一个 expansion option。
 
 ==== RVA23U64 Recommendations
 
 Implementations are strongly recommended to raise illegal-instruction
 exceptions on attempts to execute unimplemented opcodes.
 
+强烈建议实现在尝试执行未实现的操作码时引发非法指令异常。
 === RVA23S64 Profile
 
 The RVA23S64 profile specifies the ISA features available to a
@@ -212,6 +368,7 @@ supervisor-mode execution environment in 64-bit applications
 processors.  RVA23S64 is based on privileged architecture version
 1.13.
 
+RVA23S64 profile 指定了 64 位应用处理器中 s-mode 执行环境可用的 ISA 功能。RVA23S64 基于特权架构版本 1.13。
 ==== RVA23S64 Mandatory Base
 
 RV64I is the mandatory base ISA for RVA23S64 and is little-endian.
@@ -220,14 +377,22 @@ specification.  An `ECALL` in user mode causes a contained trap to
 supervisor mode.  An `ECALL` in supervisor mode causes a requested
 trap to the execution environment.
 
+RV64I 是 RVA23S64 的强制基本 ISA，也是小端的。`ECALL` 指令的操作与非特权架构规范相同。在用户模式下的 `ECALL` 引发到 s-mode 的 contained trap。在 s-mode 下的 `ECALL` 引发到执行环境的 requested trap。
+
 ==== RVA23S64 Mandatory Extensions
 
 The following unprivileged extensions are mandatory:
 
+以下 unprivileged extensions 是强制的
+
 - The RVA23S64 mandatory unprivileged extensions include all the
 mandatory unprivileged extensions in RVA23U64.
 
+RVA23S64 的强制 unprivileged extensions 包括 RVA23U64 中的所有强制的 unprivileged extensions。
+
 - *Zifencei*  Instruction-Fetch Fence.
+
+- *Zifencei* 指令获取栅栏
 
 NOTE: Zifencei is mandated as it is the only standard way to support
 instruction-cache coherence in RVA23 application processors.  A new
@@ -235,27 +400,49 @@ instruction-cache coherence mechanism is under development
 (tentatively named Zjid) which might be added as an option in the
 future.
 
+NOTE：Zifencei 是强制的，因为它是在 RVA23 应用处理器中支持指令缓存一致性的唯一标准方式。
+一种新的指令缓存一致性机制（暂时命名为 Zjid）正在开发，可能会在将来作为选项添加。
+
 The following privileged extensions are mandatory:
+
+以下 privileged extensions 是强制的
 
 - *Ss1p13*  Supervisor architecture version 1.13.
 
+- *Ss1p13* s-mode 架构版本 1.13
+
 NOTE: Ss1p13 supersedes Ss1p12.
+
+NOTE：Ss1p13 取代了 Ss1p12。
 
 The following privileged extensions were also mandatory in RVA22S64:
 
+以下 privileged extensions 在 RVA22S64 中也是强制的
+
 - *Svbare* The `satp` mode Bare must be supported.
 
+- *Svbare* 必须支持 `satp` 模式 Bare
+
 - *Sv39* Page-based 39-bit virtual-Memory system.
+
+- *Sv39* 基于页的 39 位虚拟内存系统
 
 - *Svade* Page-fault exceptions are raised when a page is accessed
    when A bit is clear, or written when D bit is clear.
 
+- *Svade* 当 A 位清除时访问页面或当 D 位清除时写入页面时引发 page-fault
+
 - *Ssccptr* Main memory regions with both the cacheability and
    coherence PMAs must support hardware page-table reads.
+
+- *Ssccptr* 带有缓存一致性 PMAs 的 Main memory regions 必须支持硬件页表读取
 
 - *Sstvecd* `stvec.MODE` must be capable of holding the value 0
   (Direct).  When `stvec.MODE=Direct`, `stvec.BASE` must be capable of
   holding any valid four-byte-aligned address.
+
+- *Sstvecd* `stvec.MODE` 必须能够保存值 0（Direct）。
+当 `stvec.MODE=Direct` 时，`stvec.BASE` 必须能够保存任何有效的四字节对齐地址。
 
 - *Sstvala* `stval` must be written with the faulting virtual address
   for load, store, and instruction page-fault, access-fault, and
@@ -264,35 +451,63 @@ The following privileged extensions were also mandatory in RVA22S64:
   For virtual-instruction and illegal-instruction exceptions, `stval` must be written with the
   faulting instruction.
 
+- *Sstvala* 对于加载、存储和 page-fault、access-fault 和 misaligned 异常，以及除了执行 `EBREAK` 或 `C.EBREAK` 指令引起的断点异常之外的断点异常，必须使用故障的虚拟地址写入 `stval`。
+对于虚拟指令和非法指令异常，必须使用故障指令写入 `stval`。
+
 - *Sscounterenw* For any `hpmcounter` that is not read-only zero, the
   corresponding bit in `scounteren` must be writable.
 
+- *Sscounterenw* 对于任何不是 read-only zero 的 `hpmcounter`，`scounteren` 中的相应位必须可写。
+
 - *Svpbmt* Page-based memory types
+
+- *Svpbmt* 基于页的内存类型
 
 - *Svinval* Fine-grained address-translation cache invalidation.
 
+- *Svinval* 细粒度地址转换缓存失效
+
 The following are new mandatory extensions:
+
+以下是新的强制 extensions
 
 - *Svnapot* NAPOT translation contiguity.
 
+- *Svnapot* NAPOT 转换连续性
+
 NOTE: Svnapot was optional in RVA22.
+
+NOTE：Svnapot 在 RVA22 中是可选的。
 
 - *Sstc* supervisor-mode timer interrupts.
 
+- *Sstc* s-mode 定时器中断
+
 NOTE: Sstc was optional in RVA22.
 
+NOTE：Sstc 在 RVA22 中是可选的。
+
 - *Sscofpmf* count overflow and mode-based filtering.
+
+- *Sscofpmf* 计数溢出和基于模式的过滤
 
 - *Ssnpm* Pointer masking, with `senvcfg.PMM` and `henvcfg.PMM` supporting,
 at minimum, settings PMLEN=0 and PMLEN=7.
 
+- *Ssnpm* 指针掩码化，`senvcfg.PMM` 和 `henvcfg.PMM` 至少支持设置 PMLEN=0 和 PMLEN=7。
+
 - *Ssu64xl* `sstatus.UXL` must be capable of holding the value 2
 (i.e., UXLEN=64 must be supported).
 
+- *Ssu64xl* `sstatus.UXL` 必须能够保存值 2（例如：必须支持 UXLEN=64）。
+
 NOTE: Ssu64xl was optional in RVA22.
 
+NOTE：Ssu64xl 在 RVA22 中是可选的。
 
 - *Sha* The augmented hypervisor extension.
+
+- *Sha* 增强的 hypervisor 扩展
 
 NOTE: Sha is a new profile-defined extension that captures the
 full set of features that are mandated to be supported along with the
@@ -303,7 +518,11 @@ the RVA22 profile text, where the hypervisor extension was first
 added, but will be added to the hypervisor section of the combined ISA
 manual.
 
+NOTE：Sha 是一个新的 profile-defined extension，它包含了H 扩展必须支持的完整功能集。通过在 profile 中包含 hypervisor extension 添加的功能没有变化——新名称仅用于简化 profile 的文本。该定义已添加到 RVA22 profile 文本中，其中首次添加了 hypervisor 扩展，但将添加到组合 ISA 手册的 hypervisor 部分。
+
 *Sha* comprises the following extensions:
+
+*Sha* 包括以下 extensions
 
 ** *H* The hypervisor extension.
 
