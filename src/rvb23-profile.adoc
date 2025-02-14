@@ -46,6 +46,8 @@ This document specifies the RVB23 profile
 family. RVB23 is the first major release of the RVB
 series of RISC-V Application Processor Profile.
 
+本文档属于 RVB23 profile 系列。RVB23 是 RISC-V 应用处理器 profile 系列的第一个主要版本。
+
 RVB profiles are intended to be used for customized 64-bit application
 processors that will run rich OS stacks, but usually as a custom build
 of standard OS source-code distributions.  The approach is to provide
@@ -53,11 +55,15 @@ a large guaranteed set of relatively inexpensive and/or widely
 beneficial features but allow optionality for more expensive and/or
 more targeted extensions.
 
+RVB profile 旨在用于定制的 64 位应用处理器，这些处理器将运行丰富的操作系统堆栈，但通常是标准操作系统源代码分发的自定义构建。目标是提供一组大量的、相对廉价和/或广泛有益的特性，但允许更昂贵和/或更有针对性的 extensions。
+
 Unlike the RVA profiles, it is explicitly a non-goal of RVB profiles
 to provide a single standard ISA interface supporting a wide variety
 of binary kernel and binary application software distributions.
 However, individual software ecosystems may build upon RVB profiles to
 produce a more targeted standard interface for a certain market.
+
+不同于 RVA profile 系列，RVB profile 系列明确不提供支持各种二进制内核和二进制应用软件分发的单一标准 ISA 接口。然而，个别软件生态系统可以基于 RVB profile 系列构建更有针对性的标准接口，以满足特定市场的需求。
 
 == Profile-Defined Extensions
 
@@ -69,15 +75,21 @@ proceed through ratification at the same time, and future
 profile-defined extensions will be presented as an edit to the
 combined ISA manual.
 
+RVB23 与 RVA23 同时获得批准，RVA23 中定义的一组新的 profile-defined extensions 也出现在 RVB23 中。这些 profile-defined extensions 将很快移至合并的 ISA 手册。未来的 RVA 和 RVB profile 版本可能不会同时获得批准，未来的 profile-defined extensions 将作为合并 ISA 手册的编辑呈现。
+
 == RVB23 Profiles
 
 Only user-mode (RVB23U64) and supervisor-mode (RVB23S64) profiles are
 specified in this family.
 
+RVB23 profile 系列中只指定了 u-mode（RVB23U64）和 s-mode（RVB23S64）profile。
+
 === RVB23U64 Profile
 
 The RVB23U64 profile specifies the ISA features available to user-mode
 execution environments in 64-bit RVB applications processors.
+
+RVB23U64 profile 指定了 64 位 RVB 应用处理器中 u-mode 执行环境可用的 ISA 特性。
 
 ==== RVB23U64 Mandatory Base
 
@@ -85,10 +97,14 @@ RV64I is the mandatory base ISA for RVB23U64 and is little-endian.  As
 per the unprivileged architecture specification, the `ECALL`
 instruction causes a requested trap to the execution environment.
 
+RV64I 是 RVB23U64 的强制基本 ISA，并且是小端的。根据非特权架构规范，`ECALL` 指令导致对执行环境的 trap。
+
 ==== RVB23U64 Mandatory Extensions
 
 The following mandatory extensions in RVB23U64 were also mandatory in
 RVA22U64.
+
+以下在 RVB23U64 中强制的扩展在 RVA22U64 中也是强制的。
 
 - *M* Integer multiplication and division.
 - *A* Atomic instructions.
@@ -118,6 +134,7 @@ address space.
 - *Zkt* Data-independent execution latency.
 
 The following mandatory extensions are also present in RVA23U64:
+以下强制扩展在 RVA23U64 中也存在：
 
 - *Zihintntl* Non-temporal locality hints.
 - *Zicond* Integer conditional operations.
@@ -151,12 +168,17 @@ profiles also allow these carryless multiply options (Zvknc and Zvksc)
 to implement GCM efficiently, with GHASH available as a separate
 option.
 
+NOTE：RVA profile 在添加矢量 crypto 时强制使用性能更高但成本更高的 GHASH 选项。为了降低实现成本，RVB profile 也允许这些 carryless multiply 选项（Zvknc 和 Zvksc）有效地实现 GCM，GHASH 可作为单独的选项。
+
 - *Zkn* Scalar crypto NIST algorithms.
 - *Zks* Scalar crypto ShangMi algorithms.
 
 NOTE: RVA23 profiles drop support for scalar crypto as an option, as
 the vector extension is now mandatory in RVA23.  RVB23 profiles
 support scalar crypto, as the vector extension is optional in RVB23.
+
+NOTE: RVA23 profile 放弃了标量 crypto 作为选项的支持，因为矢量扩展现在在 RVA23 中是强制的。
+RVB23 profile 支持标量 crypto，因为矢量扩展在 RVB23 中是可选的。
 
 ===== Development Options
 
@@ -178,6 +200,8 @@ RVA23U64.
 - *V* Vector extension.
 
 NOTE: Unclear if other Zve* extensions should also be supported in RVB.
+
+NOTE: 目前尚不确定 RVB 是否应该支持其他 Zve* 扩展。
 
 - *Zvfhmin* Vector minimal half-precision floating-point.
 - *Zvbb* Vector basic bit-manipulation instructions.
@@ -229,12 +253,16 @@ specification.  An `ECALL` in user mode causes a contained trap to
 supervisor mode.  An `ECALL` in supervisor mode causes a requested
 trap to the execution environment.
 
+RV64I 是 RVB23S64 的强制基本 ISA，并且是小端的。`ECALL` 指令按照非特权架构规范运行。在用户模式下的 `ECALL` 导致进入 s-mode 的 contained trap。在 s-mode 下的 `ECALL` 导致进入执行环境的 trap。
+
 ==== RVB23S64 Mandatory Extensions
 
 The following unprivileged extensions are mandatory:
 
 - The RVB23S64 mandatory unprivileged extensions include all the
 mandatory unprivileged extensions in RVB23U64.
+
+RVB23S64 强制的非特权扩展包括 RVB23U64 中的所有强制非特权扩展。
 
 - *Zifencei*  Instruction-Fetch Fence.
 
@@ -244,6 +272,8 @@ instruction-cache coherence mechanism is under development
 (tentatively named Zjid) which might be added as an option in the
 future.
 
+NOTE：Zifencei 是强制的，因为它是在 RVB23 应用处理器中支持指令缓存一致性的唯一标准方式。正在开发一种新的指令缓存一致性机制（暂时命名为 Zjid），可能会在未来作为选项添加。
+
 The following privileged extensions are mandatory, and are also
 mandatory in RVA23S64.
 
@@ -251,10 +281,14 @@ mandatory in RVA23S64.
 
 NOTE: Ss1p13 supersedes Ss1p12 but is not yet ratified.
 
+NOTE：Ss1p13 取代了 Ss1p12，但尚未获得批准。
+
 - *Svnapot* NAPOT translation contiguity.
 
 NOTE: Svnapot is very low cost to provide, so is made mandatory even
 in RVB.
+
+NOTE：Svnapot 的成本非常低，因此即使在 RVB 中也是强制的。
 
 - *Svbare* The `satp` mode Bare must be supported.
 
@@ -344,6 +378,8 @@ also privileged expansion options in RVA23S64:
 NOTE: Ssstrict does not prescribe behavior for the custom encoding
 spaces or CSRs.
 
+NOTE：Ssstrict 不规定自定义编码空间或 CSR 的行为。
+
 NOTE: Ssstrict definition applies to the execution environment
 claiming to be RVA23-compatible, which must have the hypervisor
 extension. That execution environment will take a contained trap to
@@ -356,6 +392,8 @@ expanded set of emulated standard instructions. An RVA23 hypervisor
 can also choose to implement guest VMs that are not RVA23 compatible
 (e.g., lacking H, or only RVA20).
 
+NOTE：Ssstrict 适用于符合 RVA23 的执行环境，该执行环境必须具有 hypervisor 扩展。该执行环境将进入 s-mode 的 contained trap（包括但不限于在外部执行环境中的模拟/委托）。Ssstrict（以及所有其他 RVA23 强制和选项）不适用于由 hypervisor 运行的任何 guest VM。RVA23 hypervisor 可以提供符合 RVA23 的 guest VM，但具有扩展的模拟标准指令集。RVA23 hypervisor 也可以选择实现不符合 RVA23 的 guest VM（例如，缺少 H，或仅 RVA20）。
+
 - *Svvptc* Transitions from invalid to valid PTEs will be visible in
    bounded time without an explicit memory-management fence.
 
@@ -366,6 +404,8 @@ can also choose to implement guest VMs that are not RVA23 compatible
 
 - Implementations are strongly recommended to raise illegal-instruction
   exceptions when attempting to execute unimplemented opcodes.
+
+- 十分推荐实现在尝试执行未实现的操作码时引发非法指令异常。
 
 == Glossary of ISA Extensions
 

@@ -530,24 +530,40 @@ NOTE：Sha 是一个新的 profile-defined extension，它包含了H 扩展必�
    supervisor-mode (`sstateen0-3`) and hypervisor-mode (`hstateen0-3`)
    state-enable registers must be provided.
 
+** *Ssstateen* s-mode 下的 state-enable extension。必须提供 s-mode（`sstateen0-3`）和 h-mode（`hstateen0-3`）state-enable 寄存器。
+
 ** *Shcounterenw* For any `hpmcounter` that is not read-only zero, the corresponding bit in `hcounteren` must be writable.
+
+** *Shcounterenw* 对于任何不是 read-only zero 的 `hpmcounter`，`hcounteren` 中的相应位必须可写。
 
 ** *Shvstvala* `vstval` must be written in all cases described above for `stval`.
 
+** *Shvstvala* 对于上述所有情况，必须写入 `vstval`。
+
 ** *Shtvala* `htval` must be written with the faulting guest physical
    address in all circumstances permitted by the ISA.
+
+** *Shtvala* 在 ISA 允许的所有情况下，必须使用故障的 guest 物理地址写入 `htval`。
 
 ** *Shvstvecd* `vstvec.MODE` must be capable of holding the value 0 (Direct).
   When `vstvec.MODE`=Direct, `vstvec.BASE` must be capable of holding
   any valid four-byte-aligned address.
 
+** *Shvstvecd* `vstvec.MODE` 必须能够保存值 0（Direct）。当 `vstvec.MODE`=Direct 时，`vstvec.BASE` 必须能够保存任何有效的四字节对齐地址。
+
 ** *Shvsatpa* All translation modes supported in `satp` must be supported in `vsatp`.
+
+** *Shvsatpa* `stap` 支持的所有 translation modes 必须在 `vsatp` 中支持。
 
 ** *Shgatpa* For each supported virtual memory scheme SvNN supported in
   `satp`, the corresponding hgatp SvNNx4 mode must be supported.  The
   `hgatp` mode Bare must also be supported.
 
+** *Shgatpa* 对于 `satp` 中支持的每种虚拟内存方案 SvNN，必须支持相应的 hgatp SvNNx4 模式。`hgatp` 模式 Bare 也必须支持。
+
 NOTE: The augmented hypervisor extension (exactly equivalent to Sha) was optional in RVA22.
+
+NOTE：增强的 hypervisor extension（与 Sha 完全相同）在 RVA22 中是可选的。
 
 ==== RVA23S64 Optional Extensions
 
@@ -555,25 +571,41 @@ NOTE: The augmented hypervisor extension (exactly equivalent to Sha) was optiona
 
 There are no privileged localized options in RVA23S64.
 
+RVA23S64 中没有 privileged localized options。
+
 ===== Development Options
 
 There are no privileged development options in RVA23S64.
+
+RVA23S64 中没有 privileged development options。
 
 ===== Expansion Options
 
 The following privileged expansion options were present in RVA22S64:
 
+RVA22S64 中包含以下 privileged expansion options
+
 - *Sv48* Page-based 48-bit virtual-memory system.
 
+- *Sv48* 基于页的 48 位虚拟内存系统
+
 - *Sv57* Page-based 57-bit virtual-memory system.
+
+- *Sv57* 基于页的 57 位虚拟内存系统
 
 - *Zkr*  Entropy CSR.
 
 The following are new privileged expansion options in RVA23S64
 
+RVA23S64 中的新的 privileged expansion options 如下
+
 - *Svadu* Hardware A/D bit updates.
 
+- *Svadu* 硬件 A/D 位更新
+
 - *Sdtrig* Debug triggers.
+
+- *Sdtrig* 调试触发器
 
 - *Ssstrict* No non-conforming extensions are present.  Attempts to
    execute unimplemented opcodes or access unimplemented CSRs in the
@@ -581,12 +613,18 @@ The following are new privileged expansion options in RVA23S64
    exception that results in a contained trap to the supervisor-mode
    trap handler.
 
+- *Ssstrict* 不存在不符合规范的扩展。在标准或保留的编码空间中尝试执行未实现的操作码或访问未实现的 CSRs会引发非法指令异常，从而导致 contained trap 到 s-mode 陷阱处理程序。
+
 NOTE: Ssstrict is a new profile-defined extension that restricts the
 behavior of reserved encoding spaces.  The extension will be added to
 the supervisor chapter of the privileged architecture.
 
+NOTE: Ssstrict 是一个新的 profile-defined extension，限制了保留编码空间的行为。该扩展将被添加到特权架构的 s-mode 章节。
+
 NOTE: Ssstrict does not prescribe behavior for the custom encoding
 spaces or CSRs.
+
+NOTE: Ssstrict 不规定自定义编码空间或 CSRs 的行为。
 
 NOTE: Ssstrict definition applies to the execution environment
 claiming to be RVA23-compatible, which must have the hypervisor
@@ -600,22 +638,31 @@ expanded set of emulated standard instructions. An RVA23 hypervisor
 can also choose to implement guest VMs that are not RVA23 compatible
 (e.g., lacking H, or only RVA20).
 
+NOTE：Ssstrict 定义适用于 RVA23 兼容的执行环境，该执行环境必须具有 hypervisor extension。该执行环境将 contained trap 到 s-mode（无论该 trap 如何实现，包括但不限于在外部执行环境中的模拟/委托）。Ssstrict（以及所有其他 RVA23 mandates 和 options）不适用于 hypervisor 运行的任何 guest VMs。RVA23 hypervisor 可以提供也是 RVA23 兼容的 guest VMs，但具有扩展的模拟标准指令集。RVA23 hypervisor 也可以选择实现不兼容 RVA23 的 guest VMs（例如，缺少 H，或仅 RVA20）。
 
 - *Svvptc* Transitions from invalid to valid PTEs will be visible in
    bounded time without an explicit memory-management fence.
 
+- *Svvptc* 从无效到有效的 PTEs 的转换将在有界时间内可见，而无需显式的内存管理栅栏。
+
 - *Sspm* Supervisor-mode pointer masking, with the supervisor execution
    environment providing a means to select PMLEN=0 and PMLEN=7 at minimum.
+
+- *Sspm* s-mode 指针掩码化，s-mode 执行环境提供一种选择至少 PMLEN=0 和 PMLEN=7 的方法。
 
 ===== Transitory Options
 
 There are no privileged transitory options in RVA23S64.
+
+RVA23S64 中没有 privileged transitory options。
 
 ==== RVA23S64 Recommendations
 
 - Implementations are strongly recommended to raise
   illegal-instruction exceptions when attempting to execute
   unimplemented opcodes or access unimplemented CSRs.
+
+- 强烈建议在尝试执行未实现的操作码或访问未实现的 CSRs时引发非法指令异常。
 
 == Glossary of ISA Extensions
 
