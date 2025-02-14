@@ -64,11 +64,15 @@ The RVM23 profile is intended for microcontrollers, with the goal of
 simplifying the demands on the software ecosystem particularly
 toolchains and library suppliers.
 
+RVM23 profile 是为微控制器设计的，目的是简化软件生态系统的需求，特别是工具链和库供应商。
+
 The RVM23 profile only specifies unprivileged ISA features.  ISA
 features related to interrupt and exception handling or privileged
 execution are not included as these are often highly
 platform-specific.  The separate RVM-CSI effort is tackling
 source-code level portability for certain platform-level features.
+
+RVM23 profile 仅指定了非特权 ISA 功能。与中断和异常处理或特权执行相关的 ISA 功能不包括在内，因为这些功能通常是高度特定于平台的。单独的 RVM-CSI 工作正在处理某些平台级功能的源代码级可移植性。
 
 A non-goal of RVM23 is to provide maximum flexibility for
 microcontroller developers.  Maximum flexibility can already be
@@ -76,27 +80,41 @@ achieved using individual RISC-V extensions.  The goal of RVM23 is
 mandate a common set of standard extensions to simplify software
 support.
 
+RVM23 的目标不是为微控制器开发人员提供最大的灵活性。最大的灵活性已经可以通过使用单独的 RISC-V extension 来实现。RVM23 的目标是强制执行一组 standard extensions，以简化软件支持。
+
 === RVM23U32
 
 RVM23U32 corresponds to a 32-bit address-space microcontroller.
 
+RVM23U32 对应于一个 32 位地址空间的微控制器。
+
 NOTE: Initially only 32b RVM profiles are defined, but a corresponding
 RVM64 profile can also be developed.
+
+NOTE：最初只定义了 32 位 RVM profiles，但也可以开发相应的 RVM64 profile。
 
 ==== RVM23U32 Mandatory Base
 
 RV32I is the mandatory base ISA for RVM23U32, and is little-endian.
 
+RV32I 是 RVM23U32 的强制基本 ISA，并且是小端。
+
 NOTE: A separate RV32ME profile uses RV32E as the base ISA.
+
+NOTE：单独的 RV32ME profile 使用 RV32E 作为基本 ISA。
 
 As per the unprivileged architecture specification, the `ecall`
 instruction causes a requested trap to the execution environment.
+
+与非特权级架构规范相对应，`ecall` 指令导致请求的陷阱到执行环境。
 
 Misaligned loads and stores might not be supported.
 
 NOTE: Software should not assume that misaligned loads and stores will
 work, or that all misaligned loads and stores will necessarily cause a
 trap.
+
+NOTE：软件不应该假设 misaligned loads and stores 将起作用，或者所有 misaligned loads and stores 都会导致 trap。
 
 ==== RVM23U32 Mandatory Extensions
 
@@ -107,6 +125,8 @@ controversial, but RVM is not intended for the smallest possible
 microcontrollers, and including divide instructions reduces
 optionality.
 
+NOTE：强制执行除法指令与仅执行乘法 (Zmmul) 可能是有争议的，但 RVM 不是为最小的微控制器设计的，包括除法指令可以减少可选性。
+
 - *B* Bit-manipulation instructions.
 
 - *Zicond* Conditional Zeroing instructions.
@@ -115,9 +135,13 @@ optionality.
 
 NOTE: These are hints, so implementations are allowed to treat as NOPs.
 
+NOTE：这些是提示，因此实现可以将其视为 NOP。
+
 - *Zihintntl*
 
 NOTE: These are hints, so implementations are allowed to treat as NOPs.
+
+NOTE：这些是提示，因此实现可以将其视为 NOP。
 
 - *Zce* Code size extension.  The `jvt` CSR must be writable and
    support the jump table mode.
@@ -125,9 +149,13 @@ NOTE: These are hints, so implementations are allowed to treat as NOPs.
 NOTE: Zce includes Zicsr. Whether and what support is mandated for
 `jvt` in the profile is a topic for discussion.
 
+NOTE：Zce 包括 Zicsr。在 profile 中是否强制执行对 `jvt` 的支持仍在讨论中。
+
 - *Zicbop* Cache-Block Prefetch Operations.
 
 NOTE: These are hints, so implementations are allowed to treat as NOPs.
+
+NOTE：这些是提示，因此实现可以将其视为 NOP。
 
 - *Zimop* Maybe-Operations
 - *Zcmop* Compressed Maybe-Operations
@@ -136,6 +164,8 @@ NOTE: Implementations can simply write zero to the destination register (for
 Zimop) or treat as a NOP (for Zcmop), unless these instructions' behavior is
 overridden by another extension.
 
+NOTE：实现可以简单地将零写入目标寄存器（对于 Zimop）或将其视为 NOP（对于 Zcmop），除非这些指令的行为被另一个 extension 覆盖。
+
 ==== RVM23U32 Optional Extensions
 
 - *Zaamo* Atomic instructions.
@@ -143,17 +173,23 @@ overridden by another extension.
 NOTE: Many microcontroller systems will not have caches and so will
 not naturally be able to support `Zalrsc`.
 
+NOTE：许多微控制器系统将没有缓存，因此自然无法支持 `Zalrsc`。
+
 - *A* Atomic instructions.
 
 NOTE: The assumption is that if Zalrsc is implemented on a
 microcontroller, then Zaamo will also be implemented, so we do not
 make Zalrsc available as a separate option.
 
+NOTE：假设如果在微控制器上实现了 Zalrsc，则 Zaamo 也将被实现，因此我们不将 Zalrsc 作为单独的选项。
+
 - *F* Single-precision floating-point instructions.
 
 NOTE: This profile does not support Zfinx and related options.  A
 similar set of profiles, tentatively named RVN, would define Zfinx
 systems.
+
+NOTE：此 profile 不支持 Zfinx 和相关选项。一个类似的 profile 集合，暂时命名为 RVN，将定义 Zfinx 系统。
 
 - *D* Double-precision floating-point instructions.
 
@@ -163,15 +199,21 @@ systems.
 
 NOTE: The P extension has not yet been frozen or ratified.
 
+NOTE：P extension 尚未冻结或批准。
+
 - *Zawrs* Wait on reservation set.
 
 NOTE: Zawrs includes Zalrsc.
+
+NOTE：Zawrs 包括 Zalrsc。
 
 - *Zifencei* Instruction-fetch fence instruction.
 
 NOTE: Zifencei is only an option because how instruction-cache
 coherence is maintained is considered a platform issue for
 microcontrollers.
+
+NOTE：Zifencei 仅是一个选项，因为如何维护指令缓存一致性被认为是微控制器的平台问题。
 
 - Misaligned loads and stores may be supported.
 
@@ -223,8 +265,12 @@ microcontrollers.
 but where either of Zvkn or Zvks is implemented, either Zvbc or Zvkg
 must also be implemented.
 
+但是，如果实现了 Zvkn 或 Zvks，则必须实现 Zvbc 或 Zvkg。
+
 NOTE: Should probably define new Zvknc and Zvksc extensions to
 represent Zvknn + Zvbc and Zvsn + Zvbc respectively.
+
+NOTE：应该定义新的 Zvknc 和 Zvksc extension 来分别表示 Zvknn + Zvbc 和 Zvsn + Zvbc。
 
 == Glossary of ISA Extensions
 
